@@ -5,9 +5,10 @@
 #include <string.h>
 
 //our libs
-#include "getInput.h"
-#include "strSplit.h"
-#include "consts.h"
+#include "../header/getInput.h"
+#include "../header/strSplit.h"
+#include "../header/consts.h"
+#include "../header/commands.h"
 
 int main(int argc, char* argv[])
 {

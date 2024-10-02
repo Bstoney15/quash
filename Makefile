@@ -1,2 +1,6 @@
 make:
-	gcc main.c -o quash getInput.h strSplit.h consts.h commands.h
+	gcc src/execute.c -o bin/quash -I ./header
+
+run:
+	gcc src/execute.c -o bin/quash -I ./header
+	./bin/quash

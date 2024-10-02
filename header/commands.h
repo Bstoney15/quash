@@ -12,6 +12,10 @@ void commands(char** tl)
     {
         isRunning = 0;
     }
+    else if(strcmp(tl[0], "place") == 0)
+    {
+        
+    }
     else
     {
         printf("QUASH: unknown command\n");

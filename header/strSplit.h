@@ -4,9 +4,6 @@
 #include <string.h>
 #include <stdio.h>
 
-#include "consts.h"
-#include "commands.h"
-
 void strSplit(char* input, char* tl[])
 {
     char* token;
