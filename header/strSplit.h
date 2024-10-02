@@ -10,6 +10,12 @@ void strSplit(char* input, char* tl[])
     int tc = 0;
 
     token = strtok(input, " \n");
+    if(token == NULL)
+    {
+        tl[0] = NULL;
+        return;
+    }
+
     while (token != NULL)
     {
         tl[tc] = token;
@@ -17,6 +23,7 @@ void strSplit(char* input, char* tl[])
         token = strtok(NULL, " \n");  // Use NULL instead of input
     }
 
+    
     tc++;
     tl[tc] = NULL;
     return;
