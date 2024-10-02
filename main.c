@@ -1,6 +1,13 @@
+//Standard libraries
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
+#include <string.h>
+
+//our libs
+#include "getInput.h"
+#include "strSplit.h"
+#include "consts.h"
 
 int main(int argc, char* argv[])
 {
@@ -11,17 +18,18 @@ int main(int argc, char* argv[])
 	
 	//set up signal handling
 
-	sleep(3);
+	sleep(1);
 
 	system("clear");
 
-	int BSIZE = 100;
-	char input[BSIZE];
+	char input[BSIZE]; //input buffer
+	char* tl[BSIZE]; //token list
 	
-	while(input != "exit")
+	while(isRunning)
 	{
-		printf("QUASH: $");
-		scanf("%s", input);
+		getInput(input);
+		strSplit(input, tl);
+		commands(tl);
 	}	
 
 
