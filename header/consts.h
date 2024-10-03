@@ -3,8 +3,12 @@
 
 #define BSIZE 256
 
+struct quash
+{
+    int isRunning;
+    char* cDir;
+};
 
-int isRunning = 1;
-
+struct quash q;
 
 #endif

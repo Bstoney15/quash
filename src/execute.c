@@ -16,6 +16,11 @@ int main(int argc, char* argv[])
 
 	printf("Quash 1.0\n");
 	printf("loading\n");
+
+	//set up quash struct
+	q.isRunning = 1;
+	q.cDir = "./~";
+
 	
 	//set up signal handling
 
@@ -26,7 +31,7 @@ int main(int argc, char* argv[])
 	char input[BSIZE]; //input buffer
 	char* tl[BSIZE]; //token list
 	
-	while(isRunning)
+	while(q.isRunning)
 	{
 		getInput(input);
 		strSplit(input, tl);

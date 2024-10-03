@@ -19,7 +19,7 @@ void commands(char** tl)
 
     if(strcmp(tl[0], "exit") == 0 || strcmp(tl[0], "quit") == 0)
     {
-        isRunning = 0;
+        q.isRunning = 0;
     }
     else if(strcmp(tl[0], "clear") == 0)
     {
