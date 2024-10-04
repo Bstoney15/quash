@@ -19,7 +19,7 @@ int main(int argc, char* argv[])
 
 	//set up quash struct
 	q.isRunning = 1;
-	q.cDir = "./~";
+	q.cDir = getenv("HOME");
 
 	
 	//set up signal handling

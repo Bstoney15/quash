@@ -23,8 +23,7 @@ void strSplit(char* input, char* tl[])
         token = strtok(NULL, " \n");  // Use NULL instead of input
     }
 
-    
-    tc++;
+
     tl[tc] = NULL;
     return;
     

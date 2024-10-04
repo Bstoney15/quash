@@ -30,8 +30,21 @@ void commands(char** tl)
         int status;
         int pid = fork();
         if(pid == 0)
-        {
-            execl("/bin/ls", "-l", NULL);
+        {   
+
+            if(tl[1] == NULL)
+            {
+            execl("/bin/ls", "ls", q.cDir, NULL);
+
+            exit(0); 
+            }
+            else
+            {
+                char cmdbuf[BSIZE];
+                sprintf(cmdbuf, "%s/%s", q.cDir, tl[1]);
+                execl("/bin/ls", "ls", cmdbuf, NULL);
+            }
+
             exit(0); 
         }
         wait(&status);	
