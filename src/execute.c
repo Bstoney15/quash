@@ -36,10 +36,7 @@ int main(int argc, char* argv[])
 		getInput(input);
 		strSplit(input, tl);
 		commands(tl);
-	
 	}	
-
-
 	exit(0);	
 }
 

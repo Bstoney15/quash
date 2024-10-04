@@ -36,6 +36,11 @@ void commands(char** tl)
         }
         wait(&status);	
     }
+    else if(strcmp(tl[0], "pwd") == 0)
+    {
+        printf(q.cDir);
+
+    }
     else
     {
         printf("QUASH: unknown command\n");
