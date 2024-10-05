@@ -10,5 +10,6 @@ struct quash
 };
 
 struct quash q;
+int status;
 
 #endif

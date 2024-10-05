@@ -15,8 +15,6 @@ void commands(char** tl)
         return;
     }
 
-
-
     if(strcmp(tl[0], "exit") == 0 || strcmp(tl[0], "quit") == 0)
     {
         q.isRunning = 0;
@@ -47,7 +45,24 @@ void commands(char** tl)
 
             exit(0); 
         }
-        wait(&status);	
+
+        waitpid(pid, &status, 0);
+    }
+    else if(strcmp(tl[0], "cd") == 0)
+    {
+        if(tl[1] == NULL)
+        {
+            printf("cd: expected argument\n");
+            return;
+        }
+        
+        char newPath[BSIZE];
+        snprintf(newPath, sizeof(newPath), "/%s", tl[1]);
+        strcat(q.cDir, newPath); 
+
+        chdir(tl[1]);
+
+        return;
     }
     else
     {
