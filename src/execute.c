@@ -9,6 +9,7 @@
 #include "../header/strSplit.h"
 #include "../header/consts.h"
 #include "../header/commands.h"
+#include "../header/countPipes.h"
 
 int main(int argc, char* argv[])
 {
@@ -30,11 +31,19 @@ int main(int argc, char* argv[])
 
 	char input[BSIZE]; //input buffer
 	char* tl[BSIZE]; //token list
+
+	//pipes
+
+	int pipesNeeded;
 	
 	while(q.isRunning)
 	{
 		getInput(input);
 		strSplit(input, tl);
+
+		pipesNeeded = countPipes(tl);
+
+		
 		commands(tl);
 
 	

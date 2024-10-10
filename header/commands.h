@@ -66,7 +66,7 @@ void commands(char** tl)
     }
     else
     {
-        printf("QUASH: unknown command\n");
+        printf("QUASH: unknown command: %s\n", tl[0]);
     }
 }
 
