@@ -1,13 +1,10 @@
 #ifndef consts
 #define consts
 
+#include "quash.h"
+
 #define BSIZE 256
 
-struct quash
-{
-    int isRunning;
-    char* cDir;
-};
 
 struct quash q;
 int status;

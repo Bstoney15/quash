@@ -8,20 +8,29 @@
 
 #include "consts.h"
 
-void commands(char** tl)
+void commands(char** tl, char* currentInput, int fd)
 {   
+
     if(tl[0] == NULL)
     {
         return;
     }
-
-    if(strcmp(tl[0], "exit") == 0 || strcmp(tl[0], "quit") == 0)
+    else if(strcmp(tl[0], "exit") == 0 || strcmp(tl[0], "quit") == 0)
     {
         q.isRunning = 0;
+        return;
     }
-    else if(strcmp(tl[0], "clear") == 0)
+
+
+    int commandStatus;
+    pid_t commandPid;
+    
+
+
+    if(strcmp(tl[0], "clear") == 0)
     {
         system("clear");
+        exit(0);
     }
     else if(strcmp(tl[0], "ls") == 0)
     {   
@@ -30,20 +39,27 @@ void commands(char** tl)
         if(pid == 0)
         {   
 
+            if(fd != -1)
+            {
+                dup2(fd, STDOUT_FILENO);
+            }
+            
+
             if(tl[1] == NULL)
             {
-            execl("/bin/ls", "ls", q.cDir, NULL);
+                execl("/bin/ls", "ls", q.cDir, NULL);
 
-            exit(0); 
+                exit(0); 
             }
             else
             {
                 char cmdbuf[BSIZE];
                 sprintf(cmdbuf, "%s/%s", q.cDir, tl[1]);
                 execl("/bin/ls", "ls", cmdbuf, NULL);
+
+                exit(0); 
             }
 
-            exit(0); 
         }
 
         waitpid(pid, &status, 0);
@@ -53,14 +69,16 @@ void commands(char** tl)
         if(tl[1] == NULL)
         {
             printf("cd: expected argument\n");
-            return;
+            
         }
-        
-        char newPath[BSIZE];
-        snprintf(newPath, sizeof(newPath), "/%s", tl[1]);
-        strcat(q.cDir, newPath); 
+        else
+        {
+            char newPath[BSIZE];
+            snprintf(newPath, sizeof(newPath), "/%s", tl[1]);
+            strcat(q.cDir, newPath); 
 
-        chdir(tl[1]);
+            chdir(tl[1]);
+        }
 
         return;
     }
@@ -68,7 +86,11 @@ void commands(char** tl)
     {
         printf("QUASH: unknown command: %s\n", tl[0]);
     }
-}
+
+    
+    }
+
+
 
 
 #endif
