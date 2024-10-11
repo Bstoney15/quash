@@ -7,7 +7,6 @@ void updateTL(char** tl)
 {
     int i = 0;
 
-
     while(strcmp(tl[i], "|") != 0)
     {
         i++;
@@ -24,6 +23,5 @@ void updateTL(char** tl)
     tl[j] = NULL;  // Set the new end of the array
 
 }
-
 
 #endif
