@@ -7,7 +7,7 @@ struct quash
 {
     int isRunning;
     char cDir[255];
-    int readPipeReady;
+    int error;
     
 };
 

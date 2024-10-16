@@ -22,9 +22,8 @@ int main(int argc, char* argv[])
 
 	//set up quash struct
 	q.isRunning = 1;
-
 	getcwd(q.cDir, sizeof(q.cDir));
-	q.readPipeReady = 0;
+	q.error = 0;
 
 	
 	//set up signal handling
@@ -51,14 +50,23 @@ int main(int argc, char* argv[])
 	
 	while(q.isRunning)
 	{
+		q.error = 0; //reset error flag
+		
 		getInput(input);
 		strSplit(input, tl);
+
+		// if error is found
+		if(q.error == 1)
+		{
+			continue;
+		}
 
 		pipesNeeded = countPipes(tl);
 		
 
 		for(pipesNeeded; pipesNeeded >= 0; pipesNeeded--)
 		{
+			printf("debug: inloop\n");
 			if(pipesNeeded > 0)
 			{	
 				commands(tl, fromProcess, fd[1]);
@@ -73,6 +81,8 @@ int main(int argc, char* argv[])
 			
 			
 		}
+
+
 	
 	}	
 	exit(0);	

@@ -20,13 +20,8 @@ void commands(char** tl, char* currentInput, int fd)
         q.isRunning = 0;
         return;
     }
-
-
-    int commandStatus;
-    pid_t commandPid;
     
-
-
+    
     if(strcmp(tl[0], "clear") == 0)
     {
         system("clear");
