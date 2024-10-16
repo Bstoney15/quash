@@ -115,6 +115,14 @@ void commands(char** tl, char* currentInput, int fd)
         printf("%s\n",q.cDir);
 
     }
+    else if(strcmp(tl[0], "echo") == 0)
+    {
+        printf("%s\n", tl[1]);
+    }
+    else if(strcmp(tl[0], "export") == 0)
+    {
+        setenv(tl[1], tl[2], 0);
+    }
     else
     {
         printf("QUASH: unknown command: %s\n", tl[0]);
