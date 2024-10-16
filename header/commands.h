@@ -32,6 +32,41 @@ void commands(char** tl, char* currentInput, int fd)
         system("clear");
         exit(0);
     }
+    else if(strcmp(tl[0], "grep") == 0)
+    {
+        int status;
+
+        int pid = fork();
+        if(pid == 0)  // Child process
+        {
+            // If fromProcess is not an empty string, pass it as input to grep
+            if(strcmp(currentInput, "") != 0)
+            {
+                int inputFD[2];
+                pipe(inputFD);
+
+                write(inputFD[1], currentInput, strlen(currentInput));
+                close(inputFD[1]);  // Close write end after writing
+
+                dup2(inputFD[0], STDIN_FILENO);
+                close(inputFD[0]); 
+            }
+
+    
+            if(fd != -1)
+            {
+                dup2(fd, STDOUT_FILENO);
+                close(fd);  // Close after redirection
+            }
+
+            execl("/bin/grep", "grep", tl[1], NULL);
+
+            perror("execl failed");
+            exit(EXIT_FAILURE);
+        }
+
+        waitpid(pid, &status, 0);
+    }
     else if(strcmp(tl[0], "ls") == 0)
     {   
         int status;
@@ -42,10 +77,11 @@ void commands(char** tl, char* currentInput, int fd)
             if(fd != -1)
             {
                 dup2(fd, STDOUT_FILENO);
+                close(fd);
             }
             
 
-            if(tl[1] == NULL)
+            if(tl[1] == NULL || strcmp(tl[1], "|") == 0)
             {
                 execl("/bin/ls", "ls", q.cDir, NULL);
 

@@ -60,12 +60,12 @@ int main(int argc, char* argv[])
 		{
 			if(pipesNeeded > 0)
 			{	
-				commands(tl, fromProcess ,fd[1]);
+				commands(tl, fromProcess, fd[1]);
 				updateTL(tl);
 			}
 			else
 			{
-				commands(tl, fromProcess ,-1);
+				commands(tl, fromProcess, -1);
 			}
 
 			read(fd[0], fromProcess, BSIZE*10);

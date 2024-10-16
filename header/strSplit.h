@@ -23,7 +23,6 @@ void strSplit(char* input, char* tl[])
         token = strtok(NULL, " \n"); 
     }
 
-
     tl[tc] = NULL;
     return;
     

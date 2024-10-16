@@ -6,6 +6,8 @@
 #define BSIZE 256
 
 
+
+
 struct quash q;
 int status;
 
