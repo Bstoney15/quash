@@ -66,7 +66,6 @@ int main(int argc, char* argv[])
 
 		for(pipesNeeded; pipesNeeded >= 0; pipesNeeded--)
 		{
-			printf("debug: inloop\n");
 			if(pipesNeeded > 0)
 			{	
 				commands(tl, fromProcess, fd[1]);
