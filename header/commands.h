@@ -109,18 +109,15 @@ void commands(char** tl, char* currentInput, int fd)
         }
         else
         {
-            char newPath[BSIZE];
-            snprintf(newPath, sizeof(newPath), "/%s", tl[1]);
-            strcat(q.cDir, newPath); 
-
             chdir(tl[1]);
+            getcwd(q.cDir, sizeof(q.cDir));
         }
 
         return;
     }
     else if(strcmp(tl[0], "pwd") == 0)
     {
-        printf(q.cDir);
+        printf("%s\n",q.cDir);
 
     }
     else

@@ -22,7 +22,8 @@ int main(int argc, char* argv[])
 
 	//set up quash struct
 	q.isRunning = 1;
-	q.cDir = getenv("HOME");
+
+	getcwd(q.cDir, sizeof(q.cDir));
 	q.readPipeReady = 0;
 
 	
@@ -52,7 +53,6 @@ int main(int argc, char* argv[])
 	{
 		getInput(input);
 		strSplit(input, tl);
-<<<<<<< HEAD
 
 		pipesNeeded = countPipes(tl);
 		
@@ -74,9 +74,6 @@ int main(int argc, char* argv[])
 			
 		}
 	
-=======
-		commands(tl);
->>>>>>> origin/Branch-pwd
 	}	
 	exit(0);	
 }
