@@ -118,6 +118,11 @@ void commands(char** tl, char* currentInput, int fd)
 
         return;
     }
+    else if(strcmp(tl[0], "pwd") == 0)
+    {
+        printf(q.cDir);
+
+    }
     else
     {
         printf("QUASH: unknown command: %s\n", tl[0]);

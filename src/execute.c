@@ -52,6 +52,7 @@ int main(int argc, char* argv[])
 	{
 		getInput(input);
 		strSplit(input, tl);
+<<<<<<< HEAD
 
 		pipesNeeded = countPipes(tl);
 		
@@ -73,9 +74,10 @@ int main(int argc, char* argv[])
 			
 		}
 	
+=======
+		commands(tl);
+>>>>>>> origin/Branch-pwd
 	}	
-
-
 	exit(0);	
 }
 
