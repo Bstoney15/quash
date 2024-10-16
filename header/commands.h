@@ -125,6 +125,10 @@ void commands(char** tl, char* currentInput, int fd)
     }
     else if(strcmp(tl[0], "export") == 0)
     {
+        if(tl[1] == NULL || tl[2]== NULL){
+            printf("export: error, not enough arguments \nUSAGE: export {name} {value}\n");
+            return;
+        }
         setenv(tl[1], tl[2], 0);
     }
     else
