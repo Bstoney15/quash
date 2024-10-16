@@ -104,7 +104,11 @@ void commands(char** tl, char* currentInput, int fd)
         }
         else
         {
-            chdir(tl[1]);
+            int isvalid = chdir(tl[1]);
+            if(isvalid == -1)
+            {
+                printf("cd: %s: No such file or directory\n", tl[1]);
+            }
             getcwd(q.cDir, sizeof(q.cDir));
         }
 
