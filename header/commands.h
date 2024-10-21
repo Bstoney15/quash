@@ -128,7 +128,7 @@ void commands(char** tl, char* currentInput, int fd)
             return;
         }
         setenv(tl[1], tl[2], 0);
-    }
+    }  
     else if(strcmp(tl[0], "cat") == 0)
     {
         int cIndex = 0;    // Index for iterating
@@ -255,7 +255,18 @@ void commands(char** tl, char* currentInput, int fd)
 
         waitpid(pid, &status, 0);
     }
-
+    else if(strcmp(tl[0], "jobs") == 0)
+    {
+        execl("/bin/jobs", "jobs", NULL);
+    }
+    else if(strcmp(tl[0], "fg") == 0)
+    {
+        execl("/bin/fg", "fg");
+    }
+    else if(strcmp(tl[0], "bg"))
+    {
+        //needs to be done
+    }
 
 
     else
