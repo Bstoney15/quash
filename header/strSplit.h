@@ -23,7 +23,7 @@ void strSplit(char* input, char* tl[])
 
     while (token != NULL)
     {
-        tl[tc] = token;
+        tl[tc] = strdup(token);
         tc++;
         token = strtok(NULL, " \n"); 
     }
@@ -37,7 +37,7 @@ void strSplit(char* input, char* tl[])
             char *env_value = getenv(variable_name);
 
             if (env_value != NULL) {
-
+                free(tl[i]);
                 tl[i] = strdup(env_value);
 
             } else {
@@ -51,6 +51,7 @@ void strSplit(char* input, char* tl[])
     }
     if (strcmp(tl[tc - 1], "&") == 0){
         q.isBackground = 1; 
+        free(tl[tc -1]); 
         tl[tc - 1] = NULL; 
     }
     else {

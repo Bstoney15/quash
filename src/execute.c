@@ -74,14 +74,16 @@ int main(int argc, char* argv[])
 				//child
 				pidTracker = pid;
 				printf("tl in child: %s\n", tl[0]);
+				printf("input in child %s\n", input); 
+
 			}	
-			else
-			{
+			else if (pid > 0){
+
 				printf("tl in parent: %s\n", tl[0]);
 				//parent
 				struct job tmp;
 				tmp.pid = pid;
-				tmp.command = input;
+				tmp.command = strdup(input);
 				q.jList[q.jobCount] = tmp;
 				tmp.jobID = q.jobCount;
 				q.jobCount++;
