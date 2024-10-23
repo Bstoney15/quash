@@ -62,18 +62,19 @@ int main(int argc, char* argv[])
 		}
 
 		pipesNeeded = countPipes(tl);
+		char** curCommand = updateTL(tl);
 		
 
 		for(pipesNeeded; pipesNeeded >= 0; pipesNeeded--)
 		{
 			if(pipesNeeded > 0)
 			{	
-				commands(tl, fromProcess, fd[1]);
-				updateTL(tl);
+				commands(curCommand, fromProcess, fd[1]);
+				curCommand = updateTL(tl);
 			}
 			else
 			{
-				commands(tl, fromProcess, -1);
+				commands(curCommand, fromProcess, -1);
 			}
 
 			read(fd[0], fromProcess, BSIZE*10);
