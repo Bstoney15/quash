@@ -10,6 +10,7 @@
 
 void commands(char** tl, char* currentInput, int fd)
 {   
+    printf("commands: %s\n", tl[0]);
 
     if(tl[0] == NULL)
     {
@@ -25,7 +26,6 @@ void commands(char** tl, char* currentInput, int fd)
     if(strcmp(tl[0], "clear") == 0)
     {
         system("clear");
-        exit(0);
     }
     else if(strcmp(tl[0], "grep") == 0)
     {
@@ -292,9 +292,29 @@ void commands(char** tl, char* currentInput, int fd)
         }
         waitpid(pid, &status, 0);
     }
+    else if(strcmp(tl[0], "jobs") == 0)
+    {
+        if(fd != -1)
+        {
+            dup2(fd, STDOUT_FILENO);
+            close(fd);  
+        }
+
+        for(int i = 0; i < q.jobCount; i++)
+        {
+            printf("[%d] %d %s %s\n", q.jList[i].jobID, q.jList[i].pid, q.jList[i].command, q.jList[i].status);
+        }
+    }
     else
     {
-        printf("QUASH: unknown command: %s\n", tl[0]);
+        int status;
+        pid_t pid = fork();
+        if(pid == 0)
+        {
+            execvp(tl[0], tl);
+            printf("QUASH: unknown command: %s\n", tl[0]);
+        }
+        waitpid(pid, &status, 0);
     }
 }
 

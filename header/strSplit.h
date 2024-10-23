@@ -10,7 +10,11 @@ void strSplit(char* input, char* tl[])
     char* token;
     int tc = 0;
 
-    token = strtok(input, " \n");
+    char inputToSplit[BSIZE];
+    strcpy(inputToSplit, input);
+   
+
+    token = strtok(inputToSplit, " \n");
     if(token == NULL)
     {
         tl[0] = NULL;
@@ -23,8 +27,6 @@ void strSplit(char* input, char* tl[])
         tc++;
         token = strtok(NULL, " \n"); 
     }
-
-    tl[tc] = NULL;
 
     for (int i = 0; i < tc; i++) {
         // Check if the token starts with '$'
@@ -47,9 +49,15 @@ void strSplit(char* input, char* tl[])
 
         }
     }
+    if (strcmp(tl[tc - 1], "&") == 0){
+        q.isBackground = 1; 
+        tl[tc - 1] = NULL; 
+    }
+    else {
+        q.isBackground = 0; 
+    }
 
-    return;
-    
+
 }
 
 

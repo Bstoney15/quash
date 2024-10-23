@@ -24,13 +24,14 @@ int main(int argc, char* argv[])
 	q.isRunning = 1;
 	getcwd(q.cDir, sizeof(q.cDir));
 	q.error = 0;
+	q.jobCount = 0;
 
 	
 	//set up signal handling
-
 	sleep(1);
-
 	system("clear");
+
+	pid_t pidTracker = -1;
 
 	//pipes
 	int fd[2];
@@ -61,6 +62,34 @@ int main(int argc, char* argv[])
 			continue;
 		}
 
+		if(q.isBackground){
+			int status;
+
+			printf("before fork: %s\n", tl[0]);
+
+			pid_t pid = fork();
+			printf("tl in parent1: %s\n", tl[0]);
+			if(pid == 0)
+			{
+				//child
+				pidTracker = pid;
+				printf("tl in child: %s\n", tl[0]);
+			}	
+			else
+			{
+				printf("tl in parent: %s\n", tl[0]);
+				//parent
+				struct job tmp;
+				tmp.pid = pid;
+				tmp.command = input;
+				q.jList[q.jobCount] = tmp;
+				tmp.jobID = q.jobCount;
+				q.jobCount++;
+				sleep(1);
+				continue;
+			}
+		}
+
 		pipesNeeded = countPipes(tl);
 		char** curCommand = updateTL(tl);
 		
@@ -82,8 +111,12 @@ int main(int argc, char* argv[])
 			
 		}
 
+		if(pidTracker == 0)
+		{
+			exit(0);
+		}
 
-	
+		
 	}	
 	exit(0);	
 }
