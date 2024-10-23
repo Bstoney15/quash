@@ -255,146 +255,55 @@ void commands(char** tl, char* currentInput, int fd)
 
         waitpid(pid, &status, 0);
     }
-    else if(strcmp(tl[0], "jobs") == 0)
-    {
-        if(tl[1] == NULL || strcmp(tl[1], "|") == 0)
-        {
-            int status;
-            int pid;
-
-            pid = fork();
-            if(pid == 0)
+    else if(strcmp(tl[0], "ls") == 0)
+    {   
+        int status;
+        int pid = fork();
+        if(pid == 0)
+        {   
+            if(fd != -1)
             {
-                if(strcmp(currentInput, "") != 0)
-                {
-                    int inputFD[2];
-                    pipe(inputFD);
-
-                    write(inputFD[1], currentInput, strlen(currentInput));
-                    close(inputFD[1]);  // Close write end after writing
-
-                    dup2(inputFD[0], STDIN_FILENO);
-                    close(inputFD[0]); 
-                }
-
-        
-                if(fd != -1)
-                {
-                    dup2(fd, STDOUT_FILENO);
-                    close(fd);  // Close after redirection
-                }
-                    execl("/bin/jobs", "jobs", NULL);
-                    exit(0);
+                dup2(fd, STDOUT_FILENO);
+                close(fd);
             }
 
-            waitpid(pid, &status, 0);
-            return;
+            char* args[] = {"ls", tl[1] == NULL || strcmp(tl[1], "|") == 0 ? q.cDir : tl[1], NULL};
+            execvp("ls", args);  // Using execvp for dynamic arguments
+
+            exit(EXIT_FAILURE); 
         }
-        else
-        {
-            int status;
-            int pid;
-
-            pid = fork();
-            if(pid == 0)
-            {
-                if(strcmp(currentInput, "") != 0)
-                {
-                    int inputFD[2];
-                    pipe(inputFD);
-
-                    write(inputFD[1], currentInput, strlen(currentInput));
-                    close(inputFD[1]);  // Close write end after writing
-
-                    dup2(inputFD[0], STDIN_FILENO);
-                    close(inputFD[0]); 
-                }
-
-        
-                if(fd != -1)
-                {
-                    dup2(fd, STDOUT_FILENO);
-                    close(fd);  // Close after redirection
-                }
-
-                execl("bin/jobs", "jobs", tl[1], NULL);
-                exit(0);
-        
-            }
-
-            waitpid(pid, &status, 0);
-        }
+        waitpid(pid, &status, 0);
     }
     else if(strcmp(tl[0], "fg") == 0)
     {
-        if(tl[1] == NULL || strcmp(tl[1], "|") == 0)
+        int status;
+        int pid = fork();
+        if(pid == 0)
         {
-            int status;
-            int pid;
+            char* args[] = {"fg", NULL};
+            execvp("fg", args);  // Using execvp for 'fg'
 
-            pid = fork();
-            if(pid == 0)
-            {
-                execl("/bin/fg", "fg", NULL);
-            }
-
-            waitpid(pid, &status, 0);
+            exit(EXIT_FAILURE);
         }
-        else
-        {
-            int status;
-            int pid;
-
-            pid = fork();
-            if(pid == 0)
-            {
-                execl("bin/fg", "fg", tl[1], NULL);
-            }
-
-            waitpid(pid, &status, 0);
-        }
-        
+        waitpid(pid, &status, 0);
     }
     else if(strcmp(tl[0], "bg") == 0)
     {
-                if(tl[1] == NULL || strcmp(tl[1], "|") == 0)
+        int status;
+        int pid = fork();
+        if(pid == 0)
         {
-            int status;
-            int pid;
+            char* args[] = {"bg", NULL};
+            execvp("bg", args);  // Using execvp for 'bg'
 
-            pid = fork();
-            if(pid == 0)
-            {
-                execl("/bin/bg", "bg", NULL);
-            }
-
-            waitpid(pid, &status, 0);
+            exit(EXIT_FAILURE);
         }
-        else
-        {
-            int status;
-            int pid;
-
-            pid = fork();
-            if(pid == 0)
-            {
-                execl("bin/bg", "bg", tl[1], NULL);
-            }
-
-            waitpid(pid, &status, 0);
-        }
+        waitpid(pid, &status, 0);
     }
-
-
     else
     {
         printf("QUASH: unknown command: %s\n", tl[0]);
     }
-
-    
 }
-
-
-
 
 #endif
