@@ -34,34 +34,29 @@ void commands(char** tl, char* currentInput, int fd)
         int pid = fork();
         if(pid == 0)  // Child process
         {
-            // If fromProcess is not an empty string, pass it as input to grep
             if(strcmp(currentInput, "") != 0)
             {
                 int inputFD[2];
                 pipe(inputFD);
 
                 write(inputFD[1], currentInput, strlen(currentInput));
-                close(inputFD[1]);  // Close write end after writing
+                close(inputFD[1]); 
 
                 dup2(inputFD[0], STDIN_FILENO);
                 close(inputFD[0]); 
             }
-
-    
             if(fd != -1)
             {
                 dup2(fd, STDOUT_FILENO);
-                close(fd);  // Close after redirection
+                close(fd);  
             }
-
-            execl("/bin/grep", "grep", tl[1], NULL);
-
+            execvp("grep", tl);
             perror("execl failed");
             exit(EXIT_FAILURE);
         }
 
         waitpid(pid, &status, 0);
-    }// If fromProcess is not an empty string, pass it as input to grep
+    }
     else if(strcmp(tl[0], "ls") == 0)
     {   
         int status;
