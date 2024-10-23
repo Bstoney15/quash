@@ -257,15 +257,132 @@ void commands(char** tl, char* currentInput, int fd)
     }
     else if(strcmp(tl[0], "jobs") == 0)
     {
-        execl("/bin/jobs", "jobs", NULL);
+        if(tl[1] == NULL || strcmp(tl[1], "|") == 0)
+        {
+            int status;
+            int pid;
+
+            pid = fork();
+            if(pid == 0)
+            {
+                if(strcmp(currentInput, "") != 0)
+                {
+                    int inputFD[2];
+                    pipe(inputFD);
+
+                    write(inputFD[1], currentInput, strlen(currentInput));
+                    close(inputFD[1]);  // Close write end after writing
+
+                    dup2(inputFD[0], STDIN_FILENO);
+                    close(inputFD[0]); 
+                }
+
+        
+                if(fd != -1)
+                {
+                    dup2(fd, STDOUT_FILENO);
+                    close(fd);  // Close after redirection
+                }
+                    execl("/bin/jobs", "jobs", NULL);
+                    exit(0);
+            }
+
+            waitpid(pid, &status, 0);
+            return;
+        }
+        else
+        {
+            int status;
+            int pid;
+
+            pid = fork();
+            if(pid == 0)
+            {
+                if(strcmp(currentInput, "") != 0)
+                {
+                    int inputFD[2];
+                    pipe(inputFD);
+
+                    write(inputFD[1], currentInput, strlen(currentInput));
+                    close(inputFD[1]);  // Close write end after writing
+
+                    dup2(inputFD[0], STDIN_FILENO);
+                    close(inputFD[0]); 
+                }
+
+        
+                if(fd != -1)
+                {
+                    dup2(fd, STDOUT_FILENO);
+                    close(fd);  // Close after redirection
+                }
+
+                execl("bin/jobs", "jobs", tl[1], NULL);
+                exit(0);
+        
+            }
+
+            waitpid(pid, &status, 0);
+        }
     }
     else if(strcmp(tl[0], "fg") == 0)
     {
-        execl("/bin/fg", "fg");
+        if(tl[1] == NULL || strcmp(tl[1], "|") == 0)
+        {
+            int status;
+            int pid;
+
+            pid = fork();
+            if(pid == 0)
+            {
+                execl("/bin/fg", "fg", NULL);
+            }
+
+            waitpid(pid, &status, 0);
+        }
+        else
+        {
+            int status;
+            int pid;
+
+            pid = fork();
+            if(pid == 0)
+            {
+                execl("bin/fg", "fg", tl[1], NULL);
+            }
+
+            waitpid(pid, &status, 0);
+        }
+        
     }
-    else if(strcmp(tl[0], "bg"))
+    else if(strcmp(tl[0], "bg") == 0)
     {
-        //needs to be done
+                if(tl[1] == NULL || strcmp(tl[1], "|") == 0)
+        {
+            int status;
+            int pid;
+
+            pid = fork();
+            if(pid == 0)
+            {
+                execl("/bin/bg", "bg", NULL);
+            }
+
+            waitpid(pid, &status, 0);
+        }
+        else
+        {
+            int status;
+            int pid;
+
+            pid = fork();
+            if(pid == 0)
+            {
+                execl("bin/bg", "bg", tl[1], NULL);
+            }
+
+            waitpid(pid, &status, 0);
+        }
     }
 
 
