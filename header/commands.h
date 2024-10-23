@@ -84,10 +84,7 @@ void commands(char** tl, char* currentInput, int fd)
             }
             else
             {
-                char cmdbuf[BSIZE];
-                sprintf(cmdbuf, "%s/%s", q.cDir, tl[1]);
-                execl("/bin/ls", "ls", cmdbuf, NULL);
-
+                execvp("ls", tl);
             }
 
         }
