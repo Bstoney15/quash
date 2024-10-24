@@ -315,6 +315,12 @@ void commands(char** tl, char* currentInput, int fd)
         }
         waitpid(pid, &status, 0);
     }
+
+    for(int i = 0; tl[i] != NULL; i++)
+    {
+        free(tl[i]);
+    }
+    free(tl);
 }
 
 #endif
