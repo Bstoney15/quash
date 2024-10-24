@@ -52,10 +52,6 @@ void commands(char** tl, char* currentInput, int fd)
                 close(fd);  
             }
             execvp("grep", tl);
-            for(int i = 0; tl[i] != NULL; i++){
-                free(tl[i]); 
-            }
-            free(tl); 
             perror("execl failed");
             exit(EXIT_FAILURE);
         }
@@ -79,19 +75,11 @@ void commands(char** tl, char* currentInput, int fd)
             if(tl[1] == NULL || strcmp(tl[1], "|") == 0)
             {
                 execl("/bin/ls", "ls", q.cDir, NULL);
-                for(int i = 0; tl[i] != NULL; i++){
-                    free(tl[i]); 
-                }
-                free(tl); 
                 exit(0); 
             }
             else
             {
                 execvp("ls", tl);
-                for(int i = 0; tl[i] != NULL; i++){
-                    free(tl[i]); 
-                }
-                free(tl);
                 exit(0);
             }
 
@@ -337,17 +325,13 @@ void commands(char** tl, char* currentInput, int fd)
 
 
             execvp(tl[0], tl);
-            printf("QUASH: unknown command: %s\n", tl[0]);
+            perror("QUASH: command execution failed");
+            fprintf(stderr, "QUASH: unknown command: %s\n", tl[0]);
             exit(0);
         }
         waitpid(pid, &status, 0);
     }
 
-    	for(int i = 0; tl[i] != NULL; i++)
-    	{	
-        	free(tl[i]);
-    	}
-        free(tl);
 
 }
 

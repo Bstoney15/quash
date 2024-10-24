@@ -36,13 +36,13 @@ void strSplit(char* input, char* tl[])
         if (tl[i][0] == '$') {
             char *variable_name = tl[i] + 1;
             char *env_value = getenv(variable_name);
-
+            
             if (env_value != NULL) {
-                printf("Replacing environment variable '%s' with value '%s'\n", variable_name, env_value);
-                free(tl[i]);  // Free the old token
-                printf("Freed memory for token '%s' at tl[%d]\n", tl[i], i);  // Debug message
+                char* old_token = tl[i];  // Store the pointer before freeing
+                free(old_token);  // Free using stored pointer
+                
                 tl[i] = strdup(env_value);  // Make a copy of the environment value
-                printf("Allocated memory for environment variable '%s' at tl[%d]\n", tl[i], i);  // Debug message
+                
                 if (tl[i] == NULL) {
                     q.error = 1;
                     break;

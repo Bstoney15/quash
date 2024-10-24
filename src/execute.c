@@ -15,6 +15,7 @@
 #include "../header/countPipes.h"
 #include "../header/updateTL.h"
 #include "../header/updateJobs.h"
+#include "../header/cleanupTL.h"
 
 int main(int argc, char* argv[])
 {
@@ -97,10 +98,7 @@ int main(int argc, char* argv[])
 				q.jList[q.jobCount] = tmp;
 				q.jobCount++;
 
-				for(int i = 0; tl[i] != NULL; i++)
-    			{	
-        			free(tl[i]);
-    			}
+				cleanUpTL(tl);
 
 				
 
@@ -117,26 +115,37 @@ int main(int argc, char* argv[])
 			if(pipesNeeded > 0)
 			{	
 				commands(curCommand, fromProcess, fd[1]);
+
+				cleanUpTL(curCommand);
+                free(curCommand);
+
 				curCommand = updateTL(tl);
 			}
 			else
 			{
 				commands(curCommand, fromProcess, -1);
+
+				cleanUpTL(curCommand);
+                free(curCommand);
 			}
 
 			read(fd[0], fromProcess, BSIZE*10);
 		}
 
-    	
+		cleanUpTL(tl);
+
 		if(pidTracker == 0)
 		{
+
 			exit(0);
 		}
 		
 	}	
 
 	//clean up
-	free(q.jList[0].command);
+	for(int i = 0; i < q.jobCount; i++) {
+        free(q.jList[i].command);
+    }
 
 	exit(0);	
 }
