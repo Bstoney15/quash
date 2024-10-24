@@ -1,4 +1,6 @@
 //Standard libraries
+#include <signal.h>
+#include <sys/types.h>
 #include <stdio.h>
 #include <stdlib.h>
 #include <unistd.h>
@@ -12,6 +14,7 @@
 #include "../header/commands.h"
 #include "../header/countPipes.h"
 #include "../header/updateTL.h"
+#include "../header/updateJobs.h"
 
 int main(int argc, char* argv[])
 {
@@ -28,6 +31,14 @@ int main(int argc, char* argv[])
 
 	
 	//set up signal handling
+
+	struct sigaction sa;
+    sa.sa_handler = sigchld_handler;
+    sigemptyset(&sa.sa_mask);
+    sa.sa_flags = SA_RESTART | SA_NOCLDSTOP;
+    sigaction(SIGCHLD, &sa, NULL);
+
+
 	sleep(1);
 	system("clear");
 
@@ -111,7 +122,6 @@ int main(int argc, char* argv[])
 		{
 			exit(0);
 		}
-
 		
 	}	
 	exit(0);	

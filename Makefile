@@ -6,4 +6,4 @@ run:
 	./bin/quash
 v: 
 	gcc src/execute.c -o bin/quash -I ./header
-	valgrind ./bin/quash
+	valgrind valgrind --leak-check=full --track-origins=yes ./bin/quash

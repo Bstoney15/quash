@@ -1,6 +1,8 @@
 {
     "files.associations": {
         "consts.h": "c",
-        "commands.h": "c"
-    }
+        "commands.h": "c",
+        "functional": "cpp"
+    },
+    "C_Cpp.errorSquiggles": "disabled"
 }

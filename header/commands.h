@@ -327,6 +327,7 @@ void commands(char** tl, char* currentInput, int fd)
         {
             execvp(tl[0], tl);
             printf("QUASH: unknown command: %s\n", tl[0]);
+            exit(0);
         }
         waitpid(pid, &status, 0);
     }
