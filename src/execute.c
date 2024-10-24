@@ -79,8 +79,8 @@ int main(int argc, char* argv[])
 				tmp.pid = pid;
 				tmp.command = strdup(input);
 				strcpy(tmp.status, "running");
-				q.jList[q.jobCount] = tmp;
 				tmp.jobID  = q.jobCount + 1;
+				q.jList[q.jobCount] = tmp;
 				q.jobCount++;
 				continue;
 			}
@@ -111,7 +111,6 @@ int main(int argc, char* argv[])
 		{
 			exit(0);
 		}
-
 
 		
 	}	

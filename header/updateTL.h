@@ -27,6 +27,7 @@ char** updateTL(char** tl)
     // If a pipe was found, update tl to start after the pipe
     if (tl[i] != NULL && strcmp(tl[i], "|") == 0)
     {
+        free(tl[i]);
         i++;  // Move past the pipe
         int j = 0;
         while (tl[i] != NULL)

@@ -5,6 +5,7 @@
 #include <stdio.h>
 #include <sys/types.h>
 #include <sys/wait.h>
+#include <unistd.h>
 
 #include "consts.h"
 
@@ -289,16 +290,8 @@ void commands(char** tl, char* currentInput, int fd)
     }
     else if(strcmp(tl[0], "fg") == 0)
     {
-        int status;
-        int pid = fork();
-        if(pid == 0)
-        {
-            char* args[] = {"fg", NULL};
-            execvp("fg", args);  // Using execvp for 'fg'
-
-            exit(EXIT_FAILURE);
-        }
-        waitpid(pid, &status, 0);
+        kill(q.jList[0].pid, 18); // for continue
+        waitpid(q.jList[0].pid, NULL, 0);
     }
     else if(strcmp(tl[0], "bg") == 0)
     {
