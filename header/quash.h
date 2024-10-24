@@ -6,7 +6,7 @@ struct job {
     int jobID; 
     pid_t pid; 
     char* command;
-    char* status; 
+    char status[25]; 
 };
 
 struct quash

@@ -10,7 +10,6 @@
 
 void commands(char** tl, char* currentInput, int fd)
 {   
-    printf("commands: %s\n", tl[0]);
 
     if(tl[0] == NULL)
     {
@@ -302,7 +301,7 @@ void commands(char** tl, char* currentInput, int fd)
 
         for(int i = 0; i < q.jobCount; i++)
         {
-            printf("[%d] %d %s %s\n", q.jList[i].jobID, q.jList[i].pid, q.jList[i].command, q.jList[i].status);
+            printf("[%d] %d %s (%s)\n", q.jList[i].jobID, q.jList[i].pid, q.jList[i].command, q.jList[i].status);
         }
     }
     else

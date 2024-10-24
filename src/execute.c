@@ -65,27 +65,23 @@ int main(int argc, char* argv[])
 		if(q.isBackground){
 			int status;
 
-			printf("before fork: %s\n", tl[0]);
 
 			pid_t pid = fork();
-			printf("tl in parent1: %s\n", tl[0]);
 			if(pid == 0)
 			{
 				//child
 				pidTracker = pid;
-				printf("tl in child: %s\n", tl[0]);
 			}	
 			else
 			{
-				printf("tl in parent: %s\n", tl[0]);
 				//parent
 				struct job tmp;
 				tmp.pid = pid;
-				tmp.command = input;
+				tmp.command = strdup(input);
+				strcpy(tmp.status, "running");
 				q.jList[q.jobCount] = tmp;
-				tmp.jobID = q.jobCount;
+				tmp.jobID  = q.jobCount + 1;
 				q.jobCount++;
-				sleep(1);
 				continue;
 			}
 		}
