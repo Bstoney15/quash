@@ -31,7 +31,6 @@ int main(int argc, char* argv[])
 
 	
 	//set up signal handling
-
 	struct sigaction sa;
     sa.sa_handler = sigchld_handler;
     sigemptyset(&sa.sa_mask);
@@ -39,8 +38,8 @@ int main(int argc, char* argv[])
     sigaction(SIGCHLD, &sa, NULL);
 
 
-	sleep(1);
-	system("clear");
+	int tmp[2];
+	pipe(tmp);
 
 	pid_t pidTracker = -1;
 
@@ -60,6 +59,8 @@ int main(int argc, char* argv[])
 	char* tl[BSIZE]; //token list
 	char fromProcess[BSIZE * 10] = "";
 	
+	system("clear");
+
 	while(q.isRunning)
 	{
 		q.error = 0; //reset error flag
@@ -82,6 +83,8 @@ int main(int argc, char* argv[])
 			{
 				//child
 				pidTracker = pid;
+				dup2(fd[1], STDOUT_FILENO);
+
 			}	
 			else
 			{
@@ -93,6 +96,14 @@ int main(int argc, char* argv[])
 				tmp.jobID  = q.jobCount + 1;
 				q.jList[q.jobCount] = tmp;
 				q.jobCount++;
+
+				for(int i = 0; tl[i] != NULL; i++)
+    			{	
+        			free(tl[i]);
+    			}
+
+				
+
 				continue;
 			}
 		}
@@ -116,12 +127,17 @@ int main(int argc, char* argv[])
 			read(fd[0], fromProcess, BSIZE*10);
 		}
 
+    	
 		if(pidTracker == 0)
 		{
 			exit(0);
 		}
 		
 	}	
+
+	//clean up
+	free(q.jList[0].command);
+
 	exit(0);	
 }
 

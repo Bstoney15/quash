@@ -16,6 +16,9 @@ void updateJobs()
         if (kill(q.jList[i].pid, 0) == -1) {
             // Process is no longer running, remove it from the list
             // Shift jobs down in the list
+
+            free(q.jList[i].command);
+
             for (int j = i; j < q.jobCount - 1; j++) {
                 q.jList[j] = q.jList[j + 1];
             }

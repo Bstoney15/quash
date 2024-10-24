@@ -14,7 +14,7 @@ void commands(char** tl, char* currentInput, int fd)
 
     if(tl[0] == NULL)
     {
-        free(tl); 
+        // free(tl[0]); 
         return;
     }
 
@@ -116,10 +116,6 @@ void commands(char** tl, char* currentInput, int fd)
             getcwd(q.cDir, sizeof(q.cDir));
         }
 
-        for(int i = 0; tl[i] != NULL; i++){
-            free(tl[i]);
-        }
-        free(tl);
         return;
     }
     else if(strcmp(tl[0], "pwd") == 0)
@@ -135,10 +131,6 @@ void commands(char** tl, char* currentInput, int fd)
     {
         if(tl[1] == NULL || tl[2]== NULL){
             printf("export: error, not enough arguments \nUSAGE: export {name} {value}\n");
-            for(int i = 0; tl[i] != NULL; i++){
-                free(tl[i]);
-            }
-            free(tl);
             return;
         }
         setenv(tl[1], tl[2], 0);
@@ -351,11 +343,12 @@ void commands(char** tl, char* currentInput, int fd)
         waitpid(pid, &status, 0);
     }
 
-    for(int i = 0; tl[i] != NULL; i++)
-    {
-        free(tl[i]);
-    }
-    free(tl);
+    	for(int i = 0; tl[i] != NULL; i++)
+    	{	
+        	free(tl[i]);
+    	}
+        free(tl);
+
 }
 
 #endif
