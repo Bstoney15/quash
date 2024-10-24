@@ -114,8 +114,6 @@ int main(int argc, char* argv[])
 			}
 
 			read(fd[0], fromProcess, BSIZE*10);
-			
-			
 		}
 
 		if(pidTracker == 0)

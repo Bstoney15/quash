@@ -325,6 +325,25 @@ void commands(char** tl, char* currentInput, int fd)
         pid_t pid = fork();
         if(pid == 0)
         {
+
+            if(strcmp(currentInput, "") != 0)
+            {
+                int inputFD[2];
+                pipe(inputFD);
+
+                write(inputFD[1], currentInput, strlen(currentInput));
+                close(inputFD[1]); 
+
+                dup2(inputFD[0], STDIN_FILENO);
+                close(inputFD[0]); 
+            }
+            if(fd != -1)
+            {
+                dup2(fd, STDOUT_FILENO);
+                close(fd);  
+            }
+
+
             execvp(tl[0], tl);
             printf("QUASH: unknown command: %s\n", tl[0]);
             exit(0);
