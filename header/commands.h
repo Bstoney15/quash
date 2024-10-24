@@ -13,19 +13,20 @@ void commands(char** tl, char* currentInput, int fd)
 
     if(tl[0] == NULL)
     {
+        free(tl); 
         return;
     }
-    else if(strcmp(tl[0], "exit") == 0 || strcmp(tl[0], "quit") == 0)
+
+    if(strcmp(tl[0], "exit") == 0 || strcmp(tl[0], "quit") == 0)
     {
         q.isRunning = 0;
-        return;
     }
-    
-    
-    if(strcmp(tl[0], "clear") == 0)
+
+    else if(strcmp(tl[0], "clear") == 0)
     {
         system("clear");
     }
+
     else if(strcmp(tl[0], "grep") == 0)
     {
         int status;
@@ -50,6 +51,10 @@ void commands(char** tl, char* currentInput, int fd)
                 close(fd);  
             }
             execvp("grep", tl);
+            for(int i = 0; tl[i] != NULL; i++){
+                free(tl[i]); 
+            }
+            free(tl); 
             perror("execl failed");
             exit(EXIT_FAILURE);
         }
@@ -73,12 +78,20 @@ void commands(char** tl, char* currentInput, int fd)
             if(tl[1] == NULL || strcmp(tl[1], "|") == 0)
             {
                 execl("/bin/ls", "ls", q.cDir, NULL);
-
+                for(int i = 0; tl[i] != NULL; i++){
+                    free(tl[i]); 
+                }
+                free(tl); 
                 exit(0); 
             }
             else
             {
                 execvp("ls", tl);
+                for(int i = 0; tl[i] != NULL; i++){
+                    free(tl[i]); 
+                }
+                free(tl);
+                exit(0);
             }
 
         }
@@ -101,6 +114,11 @@ void commands(char** tl, char* currentInput, int fd)
             }
             getcwd(q.cDir, sizeof(q.cDir));
         }
+
+        for(int i = 0; tl[i] != NULL; i++){
+            free(tl[i]);
+        }
+        free(tl);
         return;
     }
     else if(strcmp(tl[0], "pwd") == 0)
@@ -116,6 +134,10 @@ void commands(char** tl, char* currentInput, int fd)
     {
         if(tl[1] == NULL || tl[2]== NULL){
             printf("export: error, not enough arguments \nUSAGE: export {name} {value}\n");
+            for(int i = 0; tl[i] != NULL; i++){
+                free(tl[i]);
+            }
+            free(tl);
             return;
         }
         setenv(tl[1], tl[2], 0);
