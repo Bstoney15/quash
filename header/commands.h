@@ -299,6 +299,7 @@ void commands(char** tl, char* currentInput, int fd)
             printf("[%d] %d %s (%s)\n", q.jList[i].jobID, q.jList[i].pid, q.jList[i].command, q.jList[i].status);
         }
     }
+    
     else
     {
         int status;
