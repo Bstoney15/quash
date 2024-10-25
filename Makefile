@@ -1,7 +1,7 @@
 make:
 	gcc src/execute.c -o quash -I ./header
 
-run:
+test:
 	gcc src/execute.c -o quash -I ./header
 	./quash
 v: 
