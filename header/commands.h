@@ -27,37 +27,6 @@ void commands(char** tl, char* currentInput, int fd)
     {
         system("clear");
     }
-
-    else if(strcmp(tl[0], "grep") == 0)
-    {
-        int status;
-
-        int pid = fork();
-        if(pid == 0)  // Child process
-        {
-            if(strcmp(currentInput, "") != 0)
-            {
-                int inputFD[2];
-                pipe(inputFD);
-
-                write(inputFD[1], currentInput, strlen(currentInput));
-                close(inputFD[1]); 
-
-                dup2(inputFD[0], STDIN_FILENO);
-                close(inputFD[0]); 
-            }
-            if(fd != -1)
-            {
-                dup2(fd, STDOUT_FILENO);
-                close(fd);  
-            }
-            execvp("grep", tl);
-            perror("execl failed");
-            exit(EXIT_FAILURE);
-        }
-
-        waitpid(pid, &status, 0);
-    }
     else if(strcmp(tl[0], "ls") == 0)
     {   
         int status;
@@ -247,7 +216,6 @@ void commands(char** tl, char* currentInput, int fd)
             }
             args[cIndex] = NULL;
 
-            // Execute `cat`
             execvp("cat", args);
             perror("execvp failed");
             exit(EXIT_FAILURE);
