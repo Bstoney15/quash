@@ -113,7 +113,13 @@ void commands(char** tl, char* currentInput, int fd)
     }
     else if(strcmp(tl[0], "echo") == 0)
     {
-        printf("%s\n", tl[1]);
+
+        if(fd != -1)
+        {
+        dup2(fd, STDOUT_FILENO);
+        close(fd);  
+        }
+
     }
     else if(strcmp(tl[0], "export") == 0)
     {
@@ -299,7 +305,29 @@ void commands(char** tl, char* currentInput, int fd)
             printf("[%d] %d %s (%s)\n", q.jList[i].jobID, q.jList[i].pid, q.jList[i].command, q.jList[i].status);
         }
     }
-    
+    else if(strcmp(tl[0], "kill") == 0)
+    {
+        if(tl[1] == NULL)
+        {
+            printf("Kill: argument needed\n");
+            return;
+        }
+
+        if(tl[1][0] == '%')
+        {
+            int jobId = atoi(tl[1] + 1);
+            for(int i = 0; i < q.jobCount; i++)
+            {
+                if(q.jList[i].jobID == jobId)
+                {
+                    kill(q.jList[i].pid, SIGKILL);
+                    return;
+                }
+            }
+            printf("kill: job not found\n");
+
+        }
+    }
     else
     {
         int status;
