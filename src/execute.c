@@ -75,7 +75,8 @@ int main(int argc, char* argv[])
 			continue;
 		}
 
-		if(q.isBackground){
+		if(q.isBackground)
+		{
 			int status;
 
 

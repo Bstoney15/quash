@@ -89,14 +89,11 @@ void commands(char** tl, char* currentInput, int fd)
         close(fd);  
         }
 
-    }
-    else if(strcmp(tl[0], "export") == 0)
-    {
-        if(tl[1] == NULL || tl[2]== NULL){
-            printf("export: error, not enough arguments \nUSAGE: export {name} {value}\n");
-            return;
+        pid_t pid = fork();
+        if(pid  == 0)
+        {
+            execvp(tl[0], tl);execvp(tl[0], tl);
         }
-        setenv(tl[1], tl[2], 0);
     }  
     else if(strcmp(tl[0], "cat") == 0)
     {
@@ -281,6 +278,11 @@ void commands(char** tl, char* currentInput, int fd)
             }
             printf("kill: job not found\n");
 
+        }
+        else
+        {
+            pid_t pid_kill = atoi(tl[1]);
+            kill(pid_kill, SIGKILL);
         }
     }
     else
