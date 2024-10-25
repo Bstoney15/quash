@@ -1,9 +1,9 @@
 make:
-	gcc src/execute.c -o bin/quash -I ./header
+	gcc src/execute.c -o quash -I ./header
 
 run:
-	gcc src/execute.c -o bin/quash -I ./header
-	./bin/quash
+	gcc src/execute.c -o quash -I ./header
+	./quash
 v: 
-	gcc src/execute.c -o bin/quash -I ./header
-	valgrind valgrind --leak-check=full --track-origins=yes ./bin/quash
+	gcc src/execute.c -o quash -I ./header
+	valgrind valgrind --leak-check=full --track-origins=yes quash

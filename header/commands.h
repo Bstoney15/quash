@@ -188,7 +188,7 @@ void commands(char** tl, char* currentInput, int fd)
 
             if(isOutputRedir)
             {
-                // Open the file for appending if `>>`, otherwise open for writing (`>`)
+                // Open the file for appending if `>>`, otherleanUpTL(curCommand);wise open for writing (`>`)
                 FILE *file = fopen(outputFile, isAppend ? "a" : "w");
                 if(file == NULL)
                 {
@@ -246,19 +246,6 @@ void commands(char** tl, char* currentInput, int fd)
     {
         kill(q.jList[0].pid, 18); // for continue
         waitpid(q.jList[0].pid, NULL, 0);
-    }
-    else if(strcmp(tl[0], "bg") == 0)
-    {
-        int status;
-        int pid = fork();
-        if(pid == 0)
-        {
-            char* args[] = {"bg", NULL};
-            execvp("bg", args);  // Using execvp for 'bg'
-
-            exit(EXIT_FAILURE);
-        }
-        waitpid(pid, &status, 0);
     }
     else if(strcmp(tl[0], "jobs") == 0)
     {
